@@ -20,42 +20,7 @@ DataReader dataReader = new DataReader(query, configuration);
 
 ResultSet resultSet = dataReader.getResult();</pre>
 
-<h3>Maven</h3>
-<b>Step 1.</b> Add the JitPack repository to your build file
-
-
-<repositories>
-	<repository>
-		<id>jitpack.io</id>
-		<url>https://jitpack.io</url>
-	</repository>
-</repositories>
-<
-
-<b>Step 2.</b> Add the dependency
-<pre>
-<dependency>
-	<groupId>com.github.ashishdoneriya</groupId>
-	<artifactId>influxdb</artifactId>
-	<version>1.0</version>
-</dependency>
-</pre>
-
-<h3>Gradle</h3>
-<b>Step 1.</b> Add it in your root build.gradle at the end of repositories:
-<pre>
-	allprojects {
-		repositories {
-			maven { url "https://jitpack.io" }
-		}
-	}
-</pre>
-<b>Step 2.</b> Add the dependency
-<pre>
-	dependencies {
-		compile 'com.github.ashishdoneriya:influxdb:1.0'
-	}
-</pre>
+You can use https://jitpack.io to add influxdb-java to your project.
 
 <h3>Build Requirements<h3>
 <ul>
