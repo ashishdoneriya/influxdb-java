@@ -25,16 +25,8 @@ public class DataReader {
 		this.setConfiguration(configuration);
 	}
 
-	public Query getQuery() {
-		return query;
-	}
-
 	public void setQuery(Query query) {
 		this.query = query;
-	}
-
-	public Configuration getConfiguration() {
-		return configuration;
 	}
 
 	public void setConfiguration(Configuration configuration) {
@@ -56,22 +48,27 @@ public class DataReader {
 		return url.toString();
 	}
 
-	public ResultSet getResult() throws IOException {
-		
+	private String sendGetRequest(String url) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(getURL()).build();
 		InputStream in = client.newCall(request).execute().body().byteStream();
 		BufferedReader reader = null;
-		String json;
+		String output = "";
 		try {
 			reader = new BufferedReader(new InputStreamReader(in));
-			json = reader.readLine();
+			output = output + reader.readLine();
 
 		} finally {
 			if (reader != null) {
 				reader.close();
 			}
 		}
+		return output;
+	}
+
+	public ResultSet getResult() throws IOException {
+		String url = getURL();
+		String json = sendGetRequest(url);
 		Type type = new TypeToken<ResultSet>() {
 		}.getType();
 		Gson gson = new Gson();

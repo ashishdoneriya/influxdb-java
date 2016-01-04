@@ -20,12 +20,12 @@ public class ResultSet {
 
 			private List<List<String>> values;
 
-			public void setColumns(List<String> columns) {
-				this.columns = columns;
+			public List<String> getColumns() {
+				return columns;
 			}
 
-			public void setValues(List<List<String>> values) {
-				this.values = values;
+			public List<List<String>> getValues() {
+				return values;
 			}
 
 		}

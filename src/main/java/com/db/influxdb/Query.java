@@ -16,7 +16,7 @@ public class Query {
 
 	private Date rangeTo;
 
-	private String limit;
+	private Integer limit;
 	
 	private boolean fillNullValues = false;
 	
@@ -93,11 +93,11 @@ public class Query {
 		this.rangeTo = rangeTo;
 	}
 
-	public String getLimit() {
+	public int getLimit() {
 		return limit;
 	}
 
-	public void setLimit(String limit) {
+	public void setLimit(int limit) {
 		this.limit = limit;
 	}
 
@@ -131,7 +131,7 @@ public class Query {
 	}
 	
 	// create query
-	private StringBuffer getQuery() {
+	public StringBuffer getQuery() {
 		
 		StringBuffer query = new StringBuffer();
 		if (columns != null && columns.size() > 0) {
@@ -144,17 +144,17 @@ public class Query {
 			// , mean("column2") , mean("column3")
 			for (int i = 1; i < formattedColumns.size(); i++) {
 				query.append(", ").append(aggregateFunction).append('(')
-					.append(formattedColumns.get(i)).append(") ");
+					.append(formattedColumns.get(i)).append(")");
 			}
 		} else {
 			// select * 
-			query.append("select * ");
+			query.append("select *");
 			// setting aggregate function to null so that it will not add group by time()
 			aggregateFunction = null;
 		}
 		
 		// from "tableName"
-		query.append("from \"").append(tableName).append("\"");
+		query.append(" from \"").append(tableName).append("\"");
 		
 		long from = 0, to = 0;
 		
