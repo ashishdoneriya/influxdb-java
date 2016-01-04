@@ -3,8 +3,7 @@ API for influx database to fetch data.
 
 <p>This is the Java Client library which is only compatible with InfluxDB 0.9 and higher.
 Typical usage looks like:</p>
-<pre><code>
-// For fetching data
+<pre>// For fetching data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
 
 Query query = new Query();
@@ -19,26 +18,23 @@ query.fillNullValues("0");
 
 DataReader dataReader = new DataReader(query, configuration);
 
-ResultSet resultSet = dataReader.getResult();
-</code></pre>
+ResultSet resultSet = dataReader.getResult();</pre>
 
 <h3>Maven</h3>
 <b>Step 1.</b> Add the JitPack repository to your build file
-<pre>
-	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-</pre>
+<pre><repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories></pre>
 <b>Step 2.</b> Add the dependency
 <pre>
-	<dependency>
-		<groupId>com.github.ashishdoneriya</groupId>
-		<artifactId>influxdb</artifactId>
-		<version>1.0</version>
-	</dependency>
+<dependency>
+	<groupId>com.github.ashishdoneriya</groupId>
+	<artifactId>influxdb</artifactId>
+	<version>1.0</version>
+</dependency>
 </pre>
 
 <h3>Gradle</h3>
@@ -57,25 +53,6 @@ ResultSet resultSet = dataReader.getResult();
 	}
 </pre>
 
-<h3>SBT</h3>
-<b>Step 1.</b> Add it in your build.sbt at the end of resolvers:
-<pre>
-	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-</pre>
-<b>Step 2.</b> Add the dependency
-<pre>
-	<dependency>
-		<groupId>com.github.ashishdoneriya</groupId>
-		<artifactId>influxdb</artifactId>
-		<version>1.0</version>
-	</dependency>
-</pre>
-
 <h3>Build Requirements<h3>
 <ul>
 <li>Java 1.7+</li>
@@ -83,8 +60,8 @@ ResultSet resultSet = dataReader.getResult();
 </ul>
 
 <p>You can build influxdb with all tests with:</p>
-<pre><code>$ mvn clean install</code></pre>
+<pre>$ mvn clean install</pre>
 
 
 <p>You can skip tests with -DskipTests flag set to true:</p>
-<pre><code>$ mvn clean install -DskipTests=true</code></pre>
+<pre>$ mvn clean install -DskipTests=true</pre>
