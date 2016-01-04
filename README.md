@@ -1,5 +1,5 @@
 # influxdb
-API for influx database to fetch and submit data.
+API for influx database to fetch data.
 
 This is the Java Client library which is only compatible with InfluxDB 0.9 and higher.
 Typical usage looks like:
