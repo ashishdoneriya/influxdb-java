@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class QueryCreator {
+public class Query {
 
 	private String tableName;
 
@@ -220,7 +220,7 @@ public class QueryCreator {
 	}
 	
 	public static void main(String[] args) {
-		QueryCreator c = new QueryCreator();
+		Query c = new Query();
 		c.setAggregateFunction(AggregateFunction.MAX);
 		c.addColumn("asasa");
 		c.addColumn("sdasd");
