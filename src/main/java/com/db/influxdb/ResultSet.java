@@ -28,6 +28,11 @@ public class ResultSet {
 				return values;
 			}
 
+			@Override
+			public String toString() {
+				return "Series [columns=" + columns + ", values=" + values + "]";
+			}
+			
 		}
 
 		public List<Series> getSeries() {
@@ -38,6 +43,11 @@ public class ResultSet {
 			return error;
 		}
 
+		@Override
+		public String toString() {
+			return "Result [series=" + series + ", error=" + error + "]";
+		}
+		
 	}
 
 	public List<Result> getResults() {
@@ -48,4 +58,10 @@ public class ResultSet {
 		return error;
 	}
 
+	@Override
+	public String toString() {
+		return "ResultSet [results=" + results + ", error=" + error + "]";
+	}
+
+	
 }

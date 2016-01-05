@@ -219,6 +219,13 @@ public class Query {
 		this.fillString = fillString;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return getQuery().toString();
+	}
+
 	public static void main(String[] args) {
 		Query c = new Query();
 		c.setAggregateFunction(AggregateFunction.MAX);

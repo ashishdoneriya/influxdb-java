@@ -5,11 +5,11 @@
 	<groupId>influxdb</groupId>
 	<artifactId>influxdb</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
+	 <packaging>jar</packaging> 
 
 	<name>influxdb</name>
 	<description>Java api to fetch data from influxdb</description>
-	
+
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
@@ -29,5 +29,32 @@
 		</dependency>
 
 	</dependencies>
-	
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<finalName>${project.artifactId}-1.0</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+
 </project>

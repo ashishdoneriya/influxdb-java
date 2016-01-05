@@ -8,11 +8,16 @@ Configuration configuration = new Configuration("localhost", "8086", "root", "ro
 
 Query query = new Query();
 query.setTableName("table");
+// selects all columns by default, if not specified as below.
 query.addColumn("column1");
 query.addColumn("column2");
-query.setAggregateFunction(AggregateFunction.MEAN);
-query.setDuration("1h");
-query.setGroupByTime("1m");
+
+//fetches reaults of last 1 hour. (supported format are d, h, m, s)
+//query.setDuration("1h");
+
+//uncomment below line to apply aggregate functions and grouping 
+//query.setAggregateFunction(AggregateFunction.MEAN);
+//query.setGroupByTime("1m");
 query.setLimit(1000);
 query.fillNullValues("0");
 
@@ -22,7 +27,7 @@ ResultSet resultSet = dataReader.getResult();</pre>
 
 You can use https://jitpack.io to add influxdb-java to your project.
 
-<h3>Build Requirements<h3>
+<h3>Build Requirements</h3>
 <ul>
 <li>Java 1.7+</li>
 <li>Maven 3.0+</li>
