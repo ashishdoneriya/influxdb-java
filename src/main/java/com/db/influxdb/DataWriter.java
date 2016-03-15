@@ -1,14 +1,14 @@
 package com.db.influxdb;
 
-import static com.db.influxdb.InfluxDBConstants.AND_P_EQUAL_TO;
-import static com.db.influxdb.InfluxDBConstants.APPLICATION_JSON_CHARSET_UTF_8;
-import static com.db.influxdb.InfluxDBConstants.COLON;
-import static com.db.influxdb.InfluxDBConstants.EMPTY_STRING;
-import static com.db.influxdb.InfluxDBConstants.ERROR_WHILE_SENDING_POST_REQUEST_TO_INFLUXDB;
-import static com.db.influxdb.InfluxDBConstants.HTTP;
-import static com.db.influxdb.InfluxDBConstants.INFLUX_DB_CONF_IS_NULL;
-import static com.db.influxdb.InfluxDBConstants.INSUFFICIENT_INFORMATION_TO_WRITE_DATA;
-import static com.db.influxdb.InfluxDBConstants.WRITE_U;
+import static com.db.influxdb.Constants.AND_P_EQUAL_TO;
+import static com.db.influxdb.Constants.APPLICATION_JSON_CHARSET_UTF_8;
+import static com.db.influxdb.Constants.COLON;
+import static com.db.influxdb.Constants.EMPTY_STRING;
+import static com.db.influxdb.Constants.ERROR_WHILE_SENDING_POST_REQUEST_TO_INFLUXDB;
+import static com.db.influxdb.Constants.HTTP;
+import static com.db.influxdb.Constants.INFLUX_DB_CONF_IS_NULL;
+import static com.db.influxdb.Constants.INSUFFICIENT_INFORMATION_TO_WRITE_DATA;
+import static com.db.influxdb.Constants.WRITE_U;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

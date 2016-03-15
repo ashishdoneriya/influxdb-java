@@ -1,6 +1,6 @@
 package com.db.influxdb;
 
-public interface InfluxDBConstants {
+public interface Constants {
 	
 	// Constants used in InfluxDataReader class
 	
@@ -31,7 +31,7 @@ public interface InfluxDBConstants {
 	String space_GROUP_BY_TIME = " group by time(";
 	String BACKSLASH_QUOTATION = "\"";
 	String CLOSING_BRACKET_space = ") ";
-	String INFLUX_DB_CONF_IS_NULL = "InfluxDBConf is null";
+	String INFLUX_DB_CONF_IS_NULL = "Configuration is null";
 	String TABLE_NAME_NOT_SPECIFIED = "Table name not specified";
 	String FROM_BACKSLASH_QUOTATION = "from \"";
 	String YYYY_MM_DD_space_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
