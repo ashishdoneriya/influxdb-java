@@ -3,27 +3,48 @@ API for influx database to fetch data.
 
 <p>This is the Java Client library which is only compatible with InfluxDB 0.9 and higher.
 Typical usage looks like:</p>
-<pre>// For fetching data
+<pre>
+// For Writing Data
+Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
+DataWriter writer = new DataWriter(configuration);
+writer.setTableName("sampleTable");
+
+writer.setTimeUnit(TimeUnit.SECONDS);
+writer.addField("column1", 12212);
+writer.addField("column2", 22.44);
+writer.setTime(System.currentTimeMillis() / 1000);
+writer.writeData();
+
+writer.addField("column1", 112);
+writer.addField("column2", 21.44);
+// If we don not set time it will set automatically
+writer.setTime(System.currentTimeMillis() / 1000);
+writer.writeData();
+
+
+
+// For fetching data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
 
 Query query = new Query();
-query.setTableName("table");
+query.setTableName("sampleTable");
 // selects all columns by default, if not specified as below.
 query.addColumn("column1");
 query.addColumn("column2");
 
-//fetches reaults of last 1 hour. (supported format are d, h, m, s)
-//query.setDuration("1h");
+// fetches reaults of last 1 hour. (supported format are d, h, m, s)
+// query.setDuration("1h");
 
-//uncomment below line to apply aggregate functions and grouping 
-//query.setAggregateFunction(AggregateFunction.MEAN);
-//query.setGroupByTime("1m");
+// uncomment below line to apply aggregate functions and grouping
+// query.setAggregateFunction(AggregateFunction.MEAN);
+// query.setGroupByTime("1m");
 query.setLimit(1000);
 query.fillNullValues("0");
 
 DataReader dataReader = new DataReader(query, configuration);
 
-ResultSet resultSet = dataReader.getResult();</pre>
+ResultSet resultSet = dataReader.getResult();
+System.out.println(resultSet);</pre>
 
 You can use https://jitpack.io to add influxdb-java to your project.
 

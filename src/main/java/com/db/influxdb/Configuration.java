@@ -3,15 +3,15 @@ package com.db.influxdb;
 public class Configuration {
 
 	private String host;
-	
+
 	private String port;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private String database;
-	
+
 	public Configuration(String host, String port, String username, String password, String database) {
 		this.host = host;
 		this.port = port;
@@ -59,5 +59,5 @@ public class Configuration {
 	public void setDatabase(String database) {
 		this.database = database;
 	}
-	
+
 }

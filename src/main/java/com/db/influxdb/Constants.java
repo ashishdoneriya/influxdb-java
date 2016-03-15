@@ -1,9 +1,9 @@
 package com.db.influxdb;
 
 public interface Constants {
-	
+
 	// Constants used in InfluxDataReader class
-	
+
 	char T = 'T';
 	char S = 's';
 	char M = 'm';
@@ -15,7 +15,7 @@ public interface Constants {
 	char COMMA = ',';
 	char OPENING_BRACKET = '(';
 	char CLOSING_BRACKET = ')';
-	
+
 	String Z = "Z";
 	String TIME = "time";
 	String HTTP = "http://";
@@ -40,10 +40,9 @@ public interface Constants {
 	String space_WHERE_TIME_GREATER_THAN_space = " where time > ";
 	String ERROR_WHILE_FETCHING_DATA_FROM_INFLUX_DB = "Error while fetching data from influxDB";
 	String space_WHERE_TIME_GREATER_THAN_NOW_MINUS_space = " where time > now() - ";
-	
-	
+
 	// Constants used in InfluxDataWriter class
-	
+
 	String WRITE_U = "/write?u=";
 	String AND_U_EQUAL_TO = "&u=";
 	String AND_P_EQUAL_TO = "&p=";

@@ -33,7 +33,7 @@ public class DataReader {
 		this.configuration = configuration;
 	}
 
-	private String getURL() {
+	public String getURL() {
 
 		String username = configuration.getUsername();
 		String password = configuration.getPassword();

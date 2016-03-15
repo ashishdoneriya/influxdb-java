@@ -17,13 +17,13 @@ public class Query {
 	private Date rangeTo;
 
 	private Integer limit;
-	
+
 	private boolean fillNullValues = false;
-	
+
 	private String fillString;
 
 	private AggregateFunction aggregateFunction = AggregateFunction.NOFUNCTION;;
-	
+
 	private String groupByTime;
 
 	public String getTableName() {
@@ -129,41 +129,50 @@ public class Query {
 		}
 		return list;
 	}
-	
+
 	// create query
 	public StringBuffer getQuery() {
-		
+
 		StringBuffer query = new StringBuffer();
 		if (columns != null && columns.size() > 0) {
 			List<String> formattedColumns = getColumnsWithDoubleQuotes();
 			
-			// select mean("column1")
-			query.append("select ").append(aggregateFunction).append('(')
-				.append(formattedColumns.get(0)).append(')');
+			if (aggregateFunction == AggregateFunction.NOFUNCTION) {
+				// select mean("column1")
+				query.append("select ").append(formattedColumns.get(0));
 
-			// , mean("column2") , mean("column3")
-			for (int i = 1; i < formattedColumns.size(); i++) {
-				query.append(", ").append(aggregateFunction).append('(')
-					.append(formattedColumns.get(i)).append(")");
+				// , mean("column2") , mean("column3")
+				for (int i = 1; i < formattedColumns.size(); i++) {
+					query.append(", ").append(formattedColumns.get(i));
+				}
+			} else {
+
+				// select mean("column1")
+				query.append("select ").append(aggregateFunction.getFunction()).append('(').append(formattedColumns.get(0)).append(')');
+
+				// , mean("column2") , mean("column3")
+				for (int i = 1; i < formattedColumns.size(); i++) {
+					query.append(", ").append(aggregateFunction.getFunction()).append('(').append(formattedColumns.get(i)).append(")");
+				}
 			}
 		} else {
-			// select * 
+			// select *
 			query.append("select *");
-			// setting aggregate function to null so that it will not add group by time()
+			// setting aggregate function to null so that it will not add group
+			// by time()
 			aggregateFunction = null;
 		}
-		
+
 		// from "tableName"
 		query.append(" from \"").append(tableName).append("\"");
-		
+
 		long from = 0, to = 0;
-		
+
 		if (rangeFrom != null && rangeTo != null) {
 			// where time > 123456s and time < 123567s
 			from = getFormatted(rangeFrom);
 			to = getFormatted(rangeTo);
-			query.append(" where time > ").append(from).append('s')
-				.append(" and time < ").append(to).append('s');
+			query.append(" where time > ").append(from).append('s').append(" and time < ").append(to).append('s');
 		} else if (rangeFrom != null) {
 			from = getFormatted(rangeFrom);
 			query.append(" where time > ").append(from).append('s');
@@ -174,15 +183,14 @@ public class Query {
 			// where time > now() - 1h
 			query.append(" where time > now() - ").append(duration);
 		}
-		
+
 		// group by time(5m)
-		if (aggregateFunction != null
-				&& aggregateFunction != AggregateFunction.NOFUNCTION
-				&& (duration != null || rangeFrom != null || rangeTo != null) ) { 
+		if (aggregateFunction != null && aggregateFunction != AggregateFunction.NOFUNCTION
+				&& (duration != null || rangeFrom != null || rangeTo != null)) {
 			query.append(" group by time(").append(groupByTime).append(')');
 		}
-		
-		//fill(0)
+
+		// fill(0)
 		if (fillNullValues) {
 			query.append(" ").append(fillString);
 		}
@@ -191,7 +199,7 @@ public class Query {
 		}
 		return query;
 	}
-	
+
 	// convert date into particular format
 	private long getFormatted(Date date) {
 		return date.getTime() / 1000;
@@ -201,8 +209,9 @@ public class Query {
 		return groupByTime;
 	}
 
-	/** Set group by time
-	 * ie. group by time("40s") or group by time("1h")
+	/**
+	 * Set group by time ie. group by time("40s") or group by time("1h")
+	 * 
 	 * @param groupByTime
 	 */
 	public void setGroupByTime(String groupByTime) {
@@ -218,9 +227,7 @@ public class Query {
 	public void fillNullValues(String fillString) {
 		this.fillString = fillString;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return getQuery().toString();
@@ -235,6 +242,6 @@ public class Query {
 		c.setGroupByTime("30s");
 		c.setTableName("ashish");
 		System.out.println(c.getQuery());
-		
+
 	}
 }

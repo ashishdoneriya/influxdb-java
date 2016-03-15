@@ -26,13 +26,8 @@ public enum TimeUtil {
 		case NANOSECONDS:
 			return "n";
 		default:
-			EnumSet<TimeUnit> allowedTimeunits = EnumSet.of(
-					TimeUnit.HOURS,
-					TimeUnit.MINUTES,
-					TimeUnit.SECONDS,
-					TimeUnit.MILLISECONDS,
-					TimeUnit.MICROSECONDS,
-					TimeUnit.NANOSECONDS);
+			EnumSet<TimeUnit> allowedTimeunits = EnumSet.of(TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS,
+					TimeUnit.MILLISECONDS, TimeUnit.MICROSECONDS, TimeUnit.NANOSECONDS);
 			throw new IllegalArgumentException("time precision must be one of:" + allowedTimeunits);
 		}
 	}

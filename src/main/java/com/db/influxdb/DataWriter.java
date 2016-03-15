@@ -4,7 +4,6 @@ import static com.db.influxdb.Constants.AND_P_EQUAL_TO;
 import static com.db.influxdb.Constants.APPLICATION_JSON_CHARSET_UTF_8;
 import static com.db.influxdb.Constants.COLON;
 import static com.db.influxdb.Constants.EMPTY_STRING;
-import static com.db.influxdb.Constants.ERROR_WHILE_SENDING_POST_REQUEST_TO_INFLUXDB;
 import static com.db.influxdb.Constants.HTTP;
 import static com.db.influxdb.Constants.INFLUX_DB_CONF_IS_NULL;
 import static com.db.influxdb.Constants.INSUFFICIENT_INFORMATION_TO_WRITE_DATA;
@@ -12,6 +11,7 @@ import static com.db.influxdb.Constants.WRITE_U;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +25,14 @@ import com.squareup.okhttp.Response;
 public class DataWriter {
 
 	private Configuration configuration;
-	private String tableName;
-	private Map<String, Object> fields;
-	private TimeUnit timeUnit;
-	private Long time;
 	
+	private String tableName;
+	
+	private Map<String, Object> fields;
+	
+	private TimeUnit timeUnit;
+	
+	private Long time;
 
 	public DataWriter(Configuration configuration) throws Exception {
 		if (configuration == null) {
@@ -53,6 +56,7 @@ public class DataWriter {
 		batchPoints.addPoint(point);
 		batchPoints.setDatabase(configuration.getDatabase());
 		sendData(batchPoints);
+		fields = null;
 	}
 
 	// create and get url to send post request
@@ -90,7 +94,7 @@ public class DataWriter {
 				}
 				String temp = reponseJSON.toString();
 				if (!temp.trim().isEmpty()) {
-					throw new Exception(ERROR_WHILE_SENDING_POST_REQUEST_TO_INFLUXDB + temp);
+					throw new Exception(temp);
 				}
 			} finally {
 				if (reader != null) {
@@ -119,6 +123,13 @@ public class DataWriter {
 
 	public void setTime(Long time) {
 		this.time = time;
+	}
+
+	public void addField(String columnName, Object value) {
+		if (fields == null) {
+			fields = new HashMap<String, Object>();
+		}
+		fields.put(columnName, value);
 	}
 
 }
