@@ -7,6 +7,8 @@ import java.util.List;
 public class Query {
 
 	private String tableName;
+	
+	private List<String> tables;
 
 	private List<String> columns;
 
@@ -25,10 +27,6 @@ public class Query {
 	private AggregateFunction aggregateFunction = AggregateFunction.NOFUNCTION;;
 
 	private String groupByTime;
-
-	public String getTableName() {
-		return tableName;
-	}
 
 	/**
 	 * @param tableName
@@ -62,10 +60,6 @@ public class Query {
 		columns.add(column);
 	}
 
-	public String getDuration() {
-		return duration;
-	}
-
 	/**
 	 * Duration. eg. "3h" = fetch records of past 3 hour, "1m" = 1 minute, "1d"
 	 * = 1 day, s = seconds (not recommended) Supported formats are (d, h, m, s)
@@ -77,32 +71,16 @@ public class Query {
 		this.duration = duration;
 	}
 
-	public Date getRangeFrom() {
-		return rangeFrom;
-	}
-
 	public void setRangeFrom(Date rangeFrom) {
 		this.rangeFrom = rangeFrom;
-	}
-
-	public Date getRangeTo() {
-		return rangeTo;
 	}
 
 	public void setRangeTo(Date rangeTo) {
 		this.rangeTo = rangeTo;
 	}
 
-	public int getLimit() {
-		return limit;
-	}
-
 	public void setLimit(int limit) {
 		this.limit = limit;
-	}
-
-	public AggregateFunction getAggregateFunction() {
-		return aggregateFunction;
 	}
 
 	/**
@@ -162,10 +140,18 @@ public class Query {
 			// by time()
 			aggregateFunction = null;
 		}
-
+		
 		// from "tableName"
-		query.append(" from \"").append(tableName).append("\"");
+		if (tableName != null) {
+			query.append("from \"").append(tableName).append("\"");
+		} else {
+			query.append("from \"").append(tables.get(0)).append("\"");
 
+			for (int i = 1; i < tables.size(); i++) {
+				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append("\"");
+			}
+		}
+		
 		long from = 0, to = 0;
 
 		if (rangeFrom != null && rangeTo != null) {
@@ -205,10 +191,6 @@ public class Query {
 		return date.getTime() / 1000;
 	}
 
-	public String getGroupByTime() {
-		return groupByTime;
-	}
-
 	/**
 	 * Set group by time ie. group by time("40s") or group by time("1h")
 	 * 
@@ -228,20 +210,13 @@ public class Query {
 		this.fillString = fillString;
 	}
 
+	public void setTables(List<String> tables) {
+		this.tables = tables;
+	}
+	
 	@Override
 	public String toString() {
 		return getQuery().toString();
 	}
 
-	public static void main(String[] args) {
-		Query c = new Query();
-		c.setAggregateFunction(AggregateFunction.MAX);
-		c.addColumn("asasa");
-		c.addColumn("sdasd");
-		c.setDuration("1h");
-		c.setGroupByTime("30s");
-		c.setTableName("ashish");
-		System.out.println(c.getQuery());
-
-	}
 }

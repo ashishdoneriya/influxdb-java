@@ -16,9 +16,19 @@ public class ResultSet {
 
 		public class Series {
 
+			private String name;
+
 			private List<String> columns;
 
 			private List<List<String>> values;
+			
+			public String getName() {
+				return name;
+			}
+
+			public void setName(String name) {
+				this.name = name;
+			}
 
 			public List<String> getColumns() {
 				return columns;
@@ -27,10 +37,10 @@ public class ResultSet {
 			public List<List<String>> getValues() {
 				return values;
 			}
-
+			
 			@Override
 			public String toString() {
-				return "Series [columns=" + columns + ", values=" + values + "]";
+				return "Series [name=" + name + ", columns=" + columns + ", values=" + values + "]";
 			}
 
 		}

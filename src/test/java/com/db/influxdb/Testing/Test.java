@@ -12,24 +12,25 @@ import com.db.influxdb.ResultSet;
 public class Test {
 	public static void main(String[] args) throws Exception {
 		writeData();
-		readData();
+	//	readData();
 	}
 
 	public static void writeData() throws Exception {
 		Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
 		DataWriter writer = new DataWriter(configuration);
-		writer.setTableName("sampleTable");
-
+		writer.setTableName("sampleTable1");
 		writer.setTimeUnit(TimeUnit.SECONDS);
+		
 		writer.addField("column1", 12212);
 		writer.addField("column2", 22.44);
+		// If we don not set time it will set automatically
 		writer.setTime(System.currentTimeMillis() / 1000);
 		writer.writeData();
 
 		writer.addField("column1", 112);
 		writer.addField("column2", 21.44);
-		// If we don not set time it will set automatically
-		writer.setTime(System.currentTimeMillis() / 1000);
+		// Influxdb saves one point at one time. Therefore we have to add another point at another time.
+		writer.setTime(System.currentTimeMillis() / 1000 + 1);
 		writer.writeData();
 
 	}

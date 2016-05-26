@@ -28,5 +28,10 @@ public class BatchPoints {
 	public void addPoint(Point point) {
 		points.add(point);
 	}
+	
+	@Override
+	public String toString() {
+		return "BatchPoints [database=" + database + ", points=" + points + "]";
+	}
 
 }
