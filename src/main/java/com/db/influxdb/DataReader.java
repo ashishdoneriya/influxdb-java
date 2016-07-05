@@ -5,11 +5,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 
 public class DataReader {
 
@@ -33,25 +39,24 @@ public class DataReader {
 		this.configuration = configuration;
 	}
 
-	private String getURL() {
+	private URI getURL() throws URISyntaxException {
 
-		String username = configuration.getUsername();
-		String password = configuration.getPassword();
-		StringBuffer url = new StringBuffer();
-		url.append("http://").append(configuration.getHost()).append(":").append(configuration.getPort())
-				.append("/query?db=").append(configuration.getDatabase());
-
-		if (username != null && password != null) {
-			url.append("&u=").append(username).append("&p=").append(password);
-		}
-		url.append("&q=").append(query);
-		return url.toString();
+		URIBuilder uriBuilder = new URIBuilder();
+		int port = Integer.parseInt(configuration.getPort());
+		uriBuilder.setScheme("http").setHost(configuration.getHost()).setPort(port).setPath("/query")
+				.setParameter("db", configuration.getDatabase())
+				.setParameter("u", configuration.getUsername())
+				.setParameter("p", configuration.getPassword())
+				.setParameter("q", query.toString());
+		return uriBuilder.build();
 	}
 
-	private String sendGetRequest(String url) throws IOException {
-		OkHttpClient client = new OkHttpClient();
-		Request request = new Request.Builder().url(getURL()).build();
-		InputStream in = client.newCall(request).execute().body().byteStream();
+	private String sendGetRequest(URI url) throws IOException {
+		HttpGet httpget = new HttpGet(url);
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		CloseableHttpResponse response = httpclient.execute(httpget);
+
+		InputStream in = response.getEntity().getContent();
 		BufferedReader reader = null;
 		String output = "";
 		try {
@@ -63,11 +68,12 @@ public class DataReader {
 				reader.close();
 			}
 		}
+		httpclient.close();
 		return output;
 	}
 
-	public ResultSet getResult() throws IOException {
-		String url = getURL();
+	public ResultSet getResult() throws IOException, URISyntaxException {
+		URI url = getURL();
 		String json = sendGetRequest(url);
 		Type type = new TypeToken<ResultSet>() {
 		}.getType();

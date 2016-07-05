@@ -143,9 +143,9 @@ public class Query {
 		
 		// from "tableName"
 		if (tableName != null) {
-			query.append("from \"").append(tableName).append("\"");
+			query.append(" from \"").append(tableName).append("\"");
 		} else {
-			query.append("from \"").append(tables.get(0)).append("\"");
+			query.append(" from \"").append(tables.get(0)).append("\"");
 
 			for (int i = 1; i < tables.size(); i++) {
 				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append("\"");

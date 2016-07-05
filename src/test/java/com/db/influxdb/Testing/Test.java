@@ -1,6 +1,7 @@
 package com.db.influxdb.Testing;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
 import com.db.influxdb.Configuration;
@@ -12,7 +13,7 @@ import com.db.influxdb.ResultSet;
 public class Test {
 	public static void main(String[] args) throws Exception {
 		writeData();
-	//	readData();
+		readData();
 	}
 
 	public static void writeData() throws Exception {
@@ -35,11 +36,11 @@ public class Test {
 
 	}
 
-	public static void readData() throws IOException {
+	public static void readData() throws IOException, URISyntaxException {
 		Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
 
 		Query query = new Query();
-		query.setTableName("sampleTable");
+		query.setTableName("sampleTable1");
 		// selects all columns by default, if not specified as below.
 		query.addColumn("column1");
 		query.addColumn("column2");
