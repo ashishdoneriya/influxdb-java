@@ -1,8 +1,7 @@
 # influxdb
 API for influx database to fetch data.
 
-<p>This is the Java Client library which is only compatible with InfluxDB 0.9 and higher.
-Typical usage looks like:</p>
+<p>Typical usage looks like:</p>
 <pre>
 // For Writing Data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
