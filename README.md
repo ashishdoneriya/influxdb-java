@@ -1,5 +1,5 @@
 # influxdb
-API for influx database to fetch data.
+API for influx database to write and fetch data.
 
 <p>Typical usage looks like:</p>
 <pre>
