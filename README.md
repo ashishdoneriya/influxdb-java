@@ -9,10 +9,10 @@ DataWriter writer = new DataWriter(configuration);
 writer.setTableName("sampleTable");
 
 writer.setTimeUnit(TimeUnit.SECONDS);
-writer.addField("column1", 12212);
-writer.addField("column2", 22.44);
-writer.addField("column3", "thisIsString");
-writer.addField("column4", false);
+writer.addField("column1", 12212);          // Integer value
+writer.addField("column2", 22.44);          // Double value
+writer.addField("column3", "thisIsString"); // String value
+writer.addField("column4", false);          // Boolean value
 writer.setTime(System.currentTimeMillis() / 1000);
 writer.writeData();
 
