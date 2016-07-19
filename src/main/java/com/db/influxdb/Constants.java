@@ -13,6 +13,7 @@ public interface Constants {
 	char COLON = ':';
 	char SPACE = ' ';
 	char COMMA = ',';
+	char EQUAL = '=';
 	char OPENING_BRACKET = '(';
 	char CLOSING_BRACKET = ')';
 
@@ -24,6 +25,7 @@ public interface Constants {
 	String COMMA_space = ", ";
 	String SELECT_space = "select ";
 	String EMPTY_STRING = "";
+	String DOUBLE_COLON = "\"";
 	String space_FILL_0 = " fill(0)";
 	String AND_Q_EQUAL_TO = "&q=";
 	String YYYY_MM_DD_HH_MM = "yyyy/MM/dd HH:mm";
@@ -46,6 +48,8 @@ public interface Constants {
 	String WRITE_U = "/write?u=";
 	String AND_U_EQUAL_TO = "&u=";
 	String AND_P_EQUAL_TO = "&p=";
+	String AND_DB_EQUAL_TO = "&db=";
+	String AND_PRECISION_EQUAL_TO = "&precision=";
 	String NEWlINE_JSON_EQUAL_TO = "\njson=";
 	String APPLICATION_JSON_CHARSET_UTF_8 = "application/json; charset=utf-8";
 	String SENDING_POST_REQUEST_TO_INFLUX_DB_URL = "Sending post request to influxDB...\nURL=";

@@ -1,10 +1,16 @@
 package com.db.influxdb;
 
+import static com.db.influxdb.Constants.AND_DB_EQUAL_TO;
 import static com.db.influxdb.Constants.AND_P_EQUAL_TO;
+import static com.db.influxdb.Constants.AND_PRECISION_EQUAL_TO;
 import static com.db.influxdb.Constants.COLON;
+import static com.db.influxdb.Constants.COMMA;
+import static com.db.influxdb.Constants.DOUBLE_COLON;
+import static com.db.influxdb.Constants.EQUAL;
 import static com.db.influxdb.Constants.HTTP;
 import static com.db.influxdb.Constants.INFLUX_DB_CONF_IS_NULL;
 import static com.db.influxdb.Constants.INSUFFICIENT_INFORMATION_TO_WRITE_DATA;
+import static com.db.influxdb.Constants.SPACE;
 import static com.db.influxdb.Constants.WRITE_U;
 
 import java.util.HashMap;
@@ -52,13 +58,13 @@ public class DataWriter {
 		Iterator<Entry<String, Object>> it = fields.entrySet().iterator();
 		if (it.hasNext()) {
 			e = it.next();
-			sb.append(e.getKey()).append('=').append(String.valueOf(e.getValue()));
+			sb.append(e.getKey()).append(EQUAL).append(parseValue(e.getValue()));
 		}
 		while (it.hasNext()) {
 			e = it.next();
-			sb.append(',').append(e.getKey()).append('=').append(String.valueOf(e.getValue()));
+			sb.append(COMMA).append(e.getKey()).append(EQUAL).append(parseValue(e.getValue()));
 		}
-		sb.append(' ');
+		sb.append(SPACE);
 		if (time != null) {
 			sb.append(time);
 		} else {
@@ -76,6 +82,18 @@ public class DataWriter {
 			throw new Exception("Unable to write data. " + statusLine);
 		}
 	}
+	
+	private String parseValue(Object value) {
+		if (value instanceof Integer) {
+			return String.valueOf(value) + 'i';
+		} else if (value instanceof Double) {
+			return String.valueOf(value);
+		} else if (value instanceof Boolean) {
+			return String.valueOf((boolean) value);
+		} else {
+			return DOUBLE_COLON + value + DOUBLE_COLON;
+		}
+	}
 
 	// create and get url to send post request
 	private String getURL() throws Exception {
@@ -89,8 +107,8 @@ public class DataWriter {
 		String database = configuration.getDatabase();
 		StringBuffer url = new StringBuffer();
 		url.append(HTTP).append(host.trim()).append(COLON).append(port).append(WRITE_U)
-				.append(username).append(AND_P_EQUAL_TO).append(password).append("&db=")
-				.append(database).append("&precision=").append(TimeUtil.toTimePrecision(timeUnit));
+				.append(username).append(AND_P_EQUAL_TO).append(password).append(AND_DB_EQUAL_TO)
+				.append(database).append(AND_PRECISION_EQUAL_TO).append(TimeUtil.toTimePrecision(timeUnit));
 		return url.toString();
 	}
 
