@@ -11,11 +11,15 @@ writer.setTableName("sampleTable");
 writer.setTimeUnit(TimeUnit.SECONDS);
 writer.addField("column1", 12212);
 writer.addField("column2", 22.44);
+writer.addField("column3", "thisIsString");
+writer.addField("column4", false);
 writer.setTime(System.currentTimeMillis() / 1000);
 writer.writeData();
 
 writer.addField("column1", 112);
 writer.addField("column2", 21.44);
+writer.addField("column3", "thisIsString1");
+writer.addField("column4", true);
 // If we don not set time it will set automatically
 writer.setTime(System.currentTimeMillis() / 1000);
 writer.writeData();
@@ -30,7 +34,8 @@ query.setTableName("sampleTable");
 // selects all columns by default, if not specified as below.
 query.addColumn("column1");
 query.addColumn("column2");
-
+query.addColumn("column3");
+query.addColumn("column4");
 // fetches reaults of last 1 hour. (supported format are d, h, m, s)
 // query.setDuration("1h");
 
