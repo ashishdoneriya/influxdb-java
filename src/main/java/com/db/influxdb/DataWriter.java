@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -66,10 +68,13 @@ public class DataWriter {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(getURL());
 		httpPost.setEntity(new StringEntity(sb.toString(), ContentType.DEFAULT_BINARY));
-		httpClient.execute(httpPost);
+		CloseableHttpResponse response = httpClient.execute(httpPost);
 		httpClient.close();
-
 		fields = new HashMap<String, Object>();
+		StatusLine statusLine = response.getStatusLine();
+		if (statusLine.getStatusCode() != 204) {
+			throw new Exception("Unable to write data. " + statusLine);
+		}
 	}
 
 	// create and get url to send post request
