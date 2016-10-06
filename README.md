@@ -48,6 +48,12 @@ query.fillNullValues("0");
 DataReader dataReader = new DataReader(query, configuration);
 
 ResultSet resultSet = dataReader.getResult();
+System.out.println(resultSet);
+
+Query query1 = new Query();
+query1.setCustomQuery("select * from sampleTable1");
+dataReader.setQuery(query1);
+resultSet = dataReader.getResult();
 System.out.println(resultSet);</pre>
 
 You can use https://jitpack.io to add influxdb-java to your project.
