@@ -27,6 +27,11 @@ public class Query {
 	private AggregateFunction aggregateFunction = AggregateFunction.NOFUNCTION;;
 
 	private String groupByTime;
+	
+	private String customQuery;
+	
+	public Query() {
+	}
 
 	/**
 	 * @param tableName
@@ -110,8 +115,10 @@ public class Query {
 
 	// create query
 	public StringBuffer getQuery() {
-
 		StringBuffer query = new StringBuffer();
+		if (customQuery != null) {
+			return query.append(customQuery);
+		}
 		if (columns != null && columns.size() > 0) {
 			List<String> formattedColumns = getColumnsWithDoubleQuotes();
 			
@@ -214,6 +221,14 @@ public class Query {
 		this.tables = tables;
 	}
 	
+	public String getCustomQuery() {
+		return customQuery;
+	}
+
+	public void setCustomQuery(String customQuery) {
+		this.customQuery = customQuery;
+	}
+
 	@Override
 	public String toString() {
 		return getQuery().toString();

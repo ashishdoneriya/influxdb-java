@@ -52,7 +52,6 @@ public class Test {
 		query.addColumn("column1");
 		query.addColumn("column2");
 		query.addColumn("column3");
-		query.addColumn("column4");
 		// fetches reaults of last 1 hour. (supported format are d, h, m, s)
 		// query.setDuration("1h");
 
@@ -65,6 +64,12 @@ public class Test {
 		DataReader dataReader = new DataReader(query, configuration);
 
 		ResultSet resultSet = dataReader.getResult();
+		System.out.println(resultSet);
+		
+		Query query1 = new Query();
+		query1.setCustomQuery("select * from sampleTable1");
+		dataReader.setQuery(query1);
+		resultSet = dataReader.getResult();
 		System.out.println(resultSet);
 	}
 }
