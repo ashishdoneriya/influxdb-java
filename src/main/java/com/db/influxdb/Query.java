@@ -37,8 +37,9 @@ public class Query {
 	 * @param tableName
 	 *            the tableName to set
 	 */
-	public void setTableName(String tableName) {
+	public Query setTableName(String tableName) {
 		this.tableName = tableName;
+		return this;
 	}
 
 	public List<String> getColumns() {
@@ -49,8 +50,9 @@ public class Query {
 	 * @param columns
 	 *            Name of columns
 	 */
-	public void setColumns(List<String> columns) {
+	public Query setColumns(List<String> columns) {
 		this.columns = columns;
+		return this;
 	}
 
 	/**
@@ -58,11 +60,12 @@ public class Query {
 	 * 
 	 * @param column
 	 */
-	public void addColumn(String column) {
+	public Query addColumn(String column) {
 		if (columns == null) {
 			columns = new ArrayList<String>();
 		}
 		columns.add(column);
+		return this;
 	}
 
 	/**
@@ -72,37 +75,43 @@ public class Query {
 	 * @param from
 	 *            the from to set
 	 */
-	public void setDuration(String duration) {
+	public Query setDuration(String duration) {
 		this.duration = duration;
+		return this;
 	}
 
-	public void setRangeFrom(Date rangeFrom) {
+	public Query setRangeFrom(Date rangeFrom) {
 		this.rangeFrom = rangeFrom;
+		return this;
 	}
 
-	public void setRangeTo(Date rangeTo) {
+	public Query setRangeTo(Date rangeTo) {
 		this.rangeTo = rangeTo;
+		return this;
 	}
 
-	public void setLimit(int limit) {
+	public Query setLimit(int limit) {
 		this.limit = limit;
+		return this;
 	}
 
 	/**
 	 * @param aggregateFunction
 	 *            the aggregateFunction to set (min, max, mean or count)
 	 */
-	public void setAggregateFunction(AggregateFunction aggregateFunction) {
+	public Query setAggregateFunction(AggregateFunction aggregateFunction) {
 		this.aggregateFunction = aggregateFunction;
+		return this;
 	}
 
 	/**
 	 * @param rangeFrom
 	 *            the rangeFrom to set
 	 */
-	public void setRange(Date rangeFrom, Date rangeTo) {
+	public Query setRange(Date rangeFrom, Date rangeTo) {
 		this.rangeFrom = rangeFrom;
 		this.rangeTo = rangeTo;
+		return this;
 	}
 
 	private List<String> getColumnsWithDoubleQuotes() {
@@ -203,8 +212,9 @@ public class Query {
 	 * 
 	 * @param groupByTime
 	 */
-	public void setGroupByTime(String groupByTime) {
+	public Query setGroupByTime(String groupByTime) {
 		this.groupByTime = groupByTime;
+		return this;
 	}
 
 	/**
@@ -213,12 +223,14 @@ public class Query {
 	 * @param fillString
 	 *            eg. 0 or some string like "EMPTY"
 	 */
-	public void fillNullValues(String fillString) {
+	public Query fillNullValues(String fillString) {
 		this.fillString = fillString;
+		return this;
 	}
 
-	public void setTables(List<String> tables) {
+	public Query setTables(List<String> tables) {
 		this.tables = tables;
+		return this;
 	}
 	
 	public String getCustomQuery() {
