@@ -74,6 +74,6 @@ You can use https://jitpack.io to add influxdb-java to your project.
 <p>You can skip tests with -DskipTests flag set to true:</p>
 <pre>$ mvn clean install -DskipTests=true</pre>
 
-<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.4/influxdb-2.3.jar
+<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.4/influxdb-2.4.jar
 
 <p>For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html</p>
