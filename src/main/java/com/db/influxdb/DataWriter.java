@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.MessageConstraintException;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -34,6 +35,8 @@ public class DataWriter {
 	private String tableName;
 
 	private Map<String, Object> fields;
+	
+	private Map<String, String> tags;
 
 	private TimeUnit timeUnit;
 
@@ -51,10 +54,18 @@ public class DataWriter {
 			throw new Exception(INSUFFICIENT_INFORMATION_TO_WRITE_DATA);
 		}
 		// Sending data in the format of
-		// tableName column1=value1,column2=value2,column3=value3 timestamp
-		StringBuffer sb = new StringBuffer(tableName).append(' ');
+		// tableName,tag_key1=tag_value1,tag_key2=tag_value2 column1=value1,column2=value2,column3=value3 timestamp
+		StringBuffer sb = new StringBuffer(tableName);
+		
+		// Adding Tags
+		if (tags != null && !tags.isEmpty()) {
+			for (Entry<String, String> e : tags.entrySet()) {
+				sb.append(COMMA).append(e.getKey()).append(EQUAL).append(e.getValue());
+			}
+		}
+		sb.append(' ');
 		Entry<String, Object> e;
-
+		// Adding Columns
 		Iterator<Entry<String, Object>> it = fields.entrySet().iterator();
 		if (it.hasNext()) {
 			e = it.next();
@@ -76,7 +87,10 @@ public class DataWriter {
 		httpPost.setEntity(new StringEntity(sb.toString(), ContentType.DEFAULT_BINARY));
 		CloseableHttpResponse response = httpClient.execute(httpPost);
 		httpClient.close();
-		fields = new HashMap<String, Object>();
+		fields.clear();
+		if (tags != null) {
+			tags.clear();
+		}
 		StatusLine statusLine = response.getStatusLine();
 		if (statusLine.getStatusCode() != 204) {
 			throw new Exception("Unable to write data. " + statusLine);
@@ -118,6 +132,21 @@ public class DataWriter {
 
 	public void setFields(Map<String, Object> fields) {
 		this.fields = fields;
+	}
+
+	public Map<String, String> getTags() {
+		return tags;
+	}
+
+	public void setTags(Map<String, String> tags) {
+		this.tags = tags;
+	}
+	
+	public void addTag(String tagKey, String tagValue) {
+		if (tags == null) {
+			tags = new HashMap<String, String>();
+		}
+		tags.put(tagKey, tagValue);
 	}
 
 	public void setTime(Long time, TimeUnit timeUnit) {

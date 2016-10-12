@@ -13,6 +13,9 @@ writer.addField("column1", 12212);          // Integer value
 writer.addField("column2", 22.44);          // Double value
 writer.addField("column3", "thisIsString"); // String value
 writer.addField("column4", false);          // Boolean value
+writer.addTag("hostname", "server001");
+
+// If we don't set time it will set automatically
 writer.setTime(System.currentTimeMillis() / 1000);
 writer.writeData();
 
@@ -20,8 +23,8 @@ writer.addField("column1", 112);
 writer.addField("column2", 21.44);
 writer.addField("column3", "thisIsString1");
 writer.addField("column4", true);
-// If we don not set time it will set automatically
-writer.setTime(System.currentTimeMillis() / 1000);
+writer.addTag("disk_type", "HDD");
+
 writer.writeData();
 
 
