@@ -4,41 +4,46 @@ API for influx database to write and fetch data.
 <p>Typical usage looks like:</p>
 <pre>
 // For Writing Data
-Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
+Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
 DataWriter writer = new DataWriter(configuration);
-writer.setTableName("sampleTable");
+writer.setMeasurement("sampleMeasurement1");
 
-writer.setTimeUnit(TimeUnit.SECONDS);
-writer.addField("column1", 12212);          // Integer value
-writer.addField("column2", 22.44);          // Double value
-writer.addField("column3", "thisIsString"); // String value
-writer.addField("column4", false);          // Boolean value
+// Default is in seconds
+writer.setTimeUnit(TimeUnit.MILLISECONDS);
+
+writer.addField("field1", 12212);
+writer.addField("field2", 22.44);
+writer.addField("field3", "thisIsString");
+writer.addField("field4", false);
 writer.addTag("hostname", "server001");
 
-// If we don't set time it will set automatically
-writer.setTime(System.currentTimeMillis() / 1000);
+// If we'll set time it will set automatically
+writer.setTime(System.currentTimeMillis());
 writer.writeData();
 
-writer.addField("column1", 112);
-writer.addField("column2", 21.44);
-writer.addField("column3", "thisIsString1");
-writer.addField("column4", true);
+writer.addField("field1", 112);
+writer.addField("field2", 21.44);
+writer.addField("field3", "thisIsString1");
+writer.addField("field4", true);
+// Influxdb saves one point at one time. To add another point at same
+// time we can use tags otherwise it will override the previous point.
 writer.addTag("disk_type", "HDD");
+writer.setTime(System.currentTimeMillis());
 
 writer.writeData();
 
 
 
 // For fetching data
-Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
+Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
 
 Query query = new Query();
-query.setTableName("sampleTable");
-// selects all columns by default, if not specified as below.
-query.addColumn("column1");
-query.addColumn("column2");
-query.addColumn("column3");
-query.addColumn("column4");
+query.setMeasurement("sampleMeasurement1");
+// selects all fields by default, if not specified as below.
+query.addField("field1");
+query.addField("field2");
+query.addField("field3");
+query.addTagInWhereClause("hostname", "server001");
 // fetches reaults of last 1 hour. (supported format are d, h, m, s)
 // query.setDuration("1h");
 
@@ -47,17 +52,28 @@ query.addColumn("column4");
 // query.setGroupByTime("1m");
 query.setLimit(1000);
 query.fillNullValues("0");
-
 DataReader dataReader = new DataReader(query, configuration);
 
 ResultSet resultSet = dataReader.getResult();
 System.out.println(resultSet);
 
 Query query1 = new Query();
-query1.setCustomQuery("select * from sampleTable1");
+query1.setCustomQuery("select * from sampleMeasurement1");
 dataReader.setQuery(query1);
 resultSet = dataReader.getResult();
-System.out.println(resultSet);</pre>
+System.out.println(resultSet);
+
+// Other utilities
+
+Utilities utilities = new Utilities();
+// For creating database
+utilities.createDatabase(configuration);
+
+// For creating retention policy
+utilities.createRetentionPolicy(configuration, "customPolicy", 30, 1, true);
+
+System.out.println(utilities.isInfluxdbAlive(configuration));
+</pre>
 
 You can use https://jitpack.io to add influxdb-java to your project.
 
@@ -74,6 +90,6 @@ You can use https://jitpack.io to add influxdb-java to your project.
 <p>You can skip tests with -DskipTests flag set to true:</p>
 <pre>$ mvn clean install -DskipTests=true</pre>
 
-<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.4/influxdb-2.4.jar
+<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5/influxdb-2.5.jar
 
 <p>For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html</p>

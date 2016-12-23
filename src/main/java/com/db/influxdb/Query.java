@@ -54,14 +54,11 @@ public class Query {
 		this.tableName = measurementName;
 	}
 
-	public List<String> getColumns() {
-		return columns;
-	}
-
 	/**
 	 * @param columns
 	 *            Name of columns
 	 */
+	@Deprecated
 	public void setColumns(List<String> columns) {
 		this.columns = columns;
 	}
@@ -71,11 +68,23 @@ public class Query {
 	 * 
 	 * @param column
 	 */
+	@Deprecated
 	public void addColumn(String column) {
 		if (columns == null) {
 			columns = new ArrayList<String>();
 		}
 		columns.add(column);
+	}
+	
+	public void setFields(List<String> fields) {
+		this.columns = fields;
+	}
+	
+	public void addField(String fieldKey) {
+		if (columns == null) {
+			columns = new ArrayList<String>();
+		}
+		columns.add(fieldKey);
 	}
 
 	/**
@@ -164,7 +173,7 @@ public class Query {
 			query.append(Constants.FROM_BACKSLASH_QUOTATION).append(tables.get(0)).append(Constants.BACKSLASH_QUOTATION);
 
 			for (int i = 1; i < tables.size(); i++) {
-				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
+				query.append(Constants.COMMA_QUOTATION).append(tables.get(i)).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
 			}
 		}
 		
@@ -205,8 +214,8 @@ public class Query {
 			for (Entry<String, String> e : tagsInWhereClause.entrySet()) {
 				query.append(Constants.SPACE).append(e.getKey()).append(Constants.SPACE)
 					.append(Constants.EQUAL).append(Constants.SPACE)
-					.append(Constants.BACKSLASH_QUOTATION).append(e.getValue())
-					.append(Constants.BACKSLASH_QUOTATION);
+					.append(Constants.SINGLE_QUOTE).append(e.getValue())
+					.append(Constants.SINGLE_QUOTE);
 			}
 		}
 		
@@ -285,14 +294,14 @@ public class Query {
 	
 	/**
 	 * Where tagkey1 = 'tagvalue1', tagkey2 = 'tagvalue2', tagkey3 = 'tagValue3'
-	 * @param tagName
+	 * @param tagKey
 	 * @param tagValue
 	 */
-	public void addTagInWhereClause(String tagName, String tagValue) {
+	public void addTagInWhereClause(String tagKey, String tagValue) {
 		if (tagsInWhereClause == null) {
 			tagsInWhereClause = new HashMap<String, String>(2);
 		}
-		tagsInWhereClause.put(tagName, tagValue);
+		tagsInWhereClause.put(tagKey, tagValue);
 	}
 
 	/**

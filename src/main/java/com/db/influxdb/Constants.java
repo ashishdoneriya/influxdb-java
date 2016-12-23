@@ -9,6 +9,7 @@ public interface Constants {
 	char SPACE = ' ';
 	char COMMA = ',';
 	char EQUAL = '=';
+	char SINGLE_QUOTE = '\'';
 	char OPENING_BRACKET = '(';
 	char CLOSING_BRACKET = ')';
 
@@ -32,7 +33,7 @@ public interface Constants {
 	String space_GROUP_BY_TIME = " group by time(";
 	String BACKSLASH_QUOTATION = "\"";
 	String space_GROUP_BY_space = " group by ";
-	String FROM_BACKSLASH_QUOTATION = "from \"";
+	String FROM_BACKSLASH_QUOTATION = " from \"";
 	String space_AND_TIME_LESS_THAN_space = " and time < ";
 	String space_WHERE_TIME_LESS_THAN_space = "where time < ";
 	String space_WHERE_TIME_GREATER_THAN_space = " where time > ";
