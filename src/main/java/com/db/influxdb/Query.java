@@ -2,7 +2,11 @@ package com.db.influxdb;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Query {
 
@@ -29,6 +33,8 @@ public class Query {
 	private String groupByTime;
 	
 	private List<String> groupByColumns = null;
+	
+	private Map<String, String> tagsInWhereClause = null;
 	
 	private String customQuery;
 	
@@ -126,40 +132,36 @@ public class Query {
 		if (customQuery != null) {
 			return query.append(customQuery);
 		}
+		if (aggregateFunction == null || (rangeFrom == null && rangeTo != null)) {
+			aggregateFunction = AggregateFunction.NOFUNCTION;
+		}
 		if (columns != null && columns.size() > 0) {
 			List<String> formattedColumns = getColumnsWithDoubleQuotes();
-			
-			if (aggregateFunction == AggregateFunction.NOFUNCTION) {
-				// select mean("column1")
-				query.append("select ").append(formattedColumns.get(0));
 
-				// , mean("column2") , mean("column3")
-				for (int i = 1; i < formattedColumns.size(); i++) {
-					query.append(", ").append(formattedColumns.get(i));
-				}
-			} else {
+			// select mean("column1")
+			query.append(Constants.SELECT_space).append(aggregateFunction.getFunction())
+				.append(Constants.OPENING_BRACKET).append(formattedColumns.get(0))
+				.append(Constants.CLOSING_BRACKET);
 
-				// select mean("column1")
-				query.append("select ").append(aggregateFunction.getFunction()).append('(').append(formattedColumns.get(0)).append(')');
-
-				// , mean("column2") , mean("column3")
-				for (int i = 1; i < formattedColumns.size(); i++) {
-					query.append(", ").append(aggregateFunction.getFunction()).append('(').append(formattedColumns.get(i)).append(")");
-				}
+			// , mean("column2") , mean("column3")
+			for (int i = 1; i < formattedColumns.size(); i++) {
+				query.append(Constants.COMMA_space).append(aggregateFunction.getFunction())
+				.append(Constants.OPENING_BRACKET).append(formattedColumns.get(i))
+				.append(Constants.CLOSING_BRACKET);
 			}
 		} else {
 			// select *
-			query.append("select *");
+			query.append(Constants.SELECT_STAR_space);
 			// setting aggregate function to null so that it will not add group
 			// by time()
 			aggregateFunction = null;
 		}
 		
 		// from "tableName"
-		if (tableName != null) {
-			query.append(" from \"").append(tableName).append(Constants.BACKSLASH_QUOTATION);
+		if (!isStringNullOrEmpty(tableName)) {
+			query.append(Constants.FROM_BACKSLASH_QUOTATION).append(tableName).append(Constants.BACKSLASH_QUOTATION);
 		} else {
-			query.append(" from \"").append(tables.get(0)).append(Constants.BACKSLASH_QUOTATION);
+			query.append(Constants.FROM_BACKSLASH_QUOTATION).append(tables.get(0)).append(Constants.BACKSLASH_QUOTATION);
 
 			for (int i = 1; i < tables.size(); i++) {
 				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
@@ -167,37 +169,85 @@ public class Query {
 		}
 		
 		long from = 0, to = 0;
+		boolean whereAlreadyAdded = false;
 
 		if (rangeFrom != null && rangeTo != null) {
 			// where time > 123456s and time < 123567s
+			whereAlreadyAdded = true;
 			from = getFormatted(rangeFrom);
 			to = getFormatted(rangeTo);
-			query.append(" where time > ").append(from).append('s').append(" and time < ").append(to).append('s');
+			query.append(Constants.space_WHERE_TIME_GREATER_THAN_space).append(from)
+				.append(Constants.S).append(Constants.space_AND_TIME_LESS_THAN_space)
+				.append(to).append(Constants.S);
 		} else if (rangeFrom != null) {
+			whereAlreadyAdded = true;
 			from = getFormatted(rangeFrom);
-			query.append(" where time > ").append(from).append('s');
+			to = System.currentTimeMillis() / 1000;
+			query.append(Constants.space_WHERE_TIME_GREATER_THAN_space).append(from).append(Constants.S);
 		} else if (rangeTo != null) {
+			whereAlreadyAdded = true;
 			to = getFormatted(rangeTo);
-			query.append(" where time < ").append(to).append('s');
-		} else if (duration != null) {
+			query.append(Constants.space_WHERE_TIME_LESS_THAN_space).append(to).append(Constants.S);
+		} else if (!isStringNullOrEmpty(duration)) {
+			whereAlreadyAdded = true;
 			// where time > now() - 1h
-			query.append(" where time > now() - ").append(duration);
+			query.append(Constants.space_WHERE_TIME_GREATER_THAN_NOW_MINUS_space).append(duration);
 		}
+		
+		// where jobName = 'PI' (ie. Where tagkey1 = 'tagvalue1', tagkey2 = 'tagvalue2', tagkey3 = 'tagValue3')
+		if (tagsInWhereClause != null && !tagsInWhereClause.isEmpty()) {
+			query.append(Constants.SPACE);
+			if (whereAlreadyAdded) {
+				query.append(Constants.AND);
+			} else {
+				query.append(Constants.WHERE);
+			}
+			for (Entry<String, String> e : tagsInWhereClause.entrySet()) {
+				query.append(Constants.SPACE).append(e.getKey()).append(Constants.SPACE)
+					.append(Constants.EQUAL).append(Constants.SPACE)
+					.append(Constants.BACKSLASH_QUOTATION).append(e.getValue())
+					.append(Constants.BACKSLASH_QUOTATION);
+			}
+		}
+		
+		boolean isGroupByAlreadyAdded = false;
 
 		// group by time(5m)
-		if (aggregateFunction != null && aggregateFunction != AggregateFunction.NOFUNCTION
-				&& (duration != null || rangeFrom != null || rangeTo != null)) {
-			query.append(" group by time(").append(groupByTime).append(')');
+		if (aggregateFunction != null
+			&& !isStringNullOrEmpty(groupByTime)
+			&& (!isStringNullOrEmpty(duration) || rangeFrom != null) ) {
+				isGroupByAlreadyAdded = true;
+				query.append(Constants.space_GROUP_BY_TIME).append(groupByTime).append(Constants.CLOSING_BRACKET);
+		}
+
+		if (groupByColumns != null && !groupByColumns.isEmpty()) {
+			if (isGroupByAlreadyAdded) {
+				query.append(Constants.COMMA);
+			} else {
+				query.append(Constants.space_GROUP_BY_space);
+			}
+			Iterator<String> it = groupByColumns.iterator();
+			query.append(Constants.BACKSLASH_QUOTATION).append(it.next()).append(Constants.BACKSLASH_QUOTATION);
+			while (it.hasNext()) {
+				query.append(Constants.COMMA_QUOTATION).append(it.next()).append(Constants.BACKSLASH_QUOTATION);
+			}
 		}
 
 		// fill(0)
 		if (fillNullValues) {
-			query.append(" ").append(fillString);
+			query.append(Constants.SPACE).append(fillString);
 		}
 		if (limit != null) {
-			query.append(" limit ").append(limit);
+			query.append(Constants.LIMIT).append(limit);
 		}
 		return query;
+	}
+	
+	private boolean isStringNullOrEmpty(String str) {
+		if (str == null || str.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 	// convert date into particular format
@@ -223,6 +273,26 @@ public class Query {
 			groupByColumns = new ArrayList<String>(2);
 		}
 		groupByColumns.add(columnName);
+	}
+
+	/**
+	 * Where tagkey1 = 'tagvalue1', tagkey2 = 'tagvalue2', tagkey3 = 'tagValue3'
+	 * @param tagsInWhereClause
+	 */
+	public void setTagsInWhereClause(Map<String, String> tagsInWhereClause) {
+		this.tagsInWhereClause = tagsInWhereClause;
+	}
+	
+	/**
+	 * Where tagkey1 = 'tagvalue1', tagkey2 = 'tagvalue2', tagkey3 = 'tagValue3'
+	 * @param tagName
+	 * @param tagValue
+	 */
+	public void addTagInWhereClause(String tagName, String tagValue) {
+		if (tagsInWhereClause == null) {
+			tagsInWhereClause = new HashMap<String, String>(2);
+		}
+		tagsInWhereClause.put(tagName, tagValue);
 	}
 
 	/**
