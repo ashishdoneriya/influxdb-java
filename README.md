@@ -44,7 +44,7 @@ query.addField("field1");
 query.addField("field2");
 query.addField("field3");
 query.addTagInWhereClause("hostname", "server001");
-// fetches reaults of last 1 hour. (supported format are d, h, m, s)
+// fetches results of last 1 hour. (supported format are d, h, m, s)
 // query.setDuration("1h");
 
 // uncomment below line to apply aggregate functions and grouping
@@ -75,20 +75,16 @@ utilities.createRetentionPolicy(configuration, "customPolicy", 30, 1, true);
 System.out.println(utilities.isInfluxdbAlive(configuration));
 </pre>
 
-You can use https://jitpack.io to add influxdb-java to your project.
-
 <h3>Build Requirements</h3>
 <ul>
 <li>Java 1.7+</li>
 <li>Maven 3.0+</li>
 </ul>
 
-<p>You can build influxdb with all tests with:</p>
-<pre>$ mvn clean install</pre>
-
-
-<p>You can skip tests with -DskipTests flag set to true:</p>
+<p>You can build influxdb with:</p>
 <pre>$ mvn clean install -DskipTests=true</pre>
+
+<p>You can use https://jitpack.io to add influxdb-java to your project.</p>
 
 <p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5/influxdb-2.5.jar
 
