@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -13,9 +12,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class DataReader {
 
@@ -43,11 +39,12 @@ public class DataReader {
 
 		URIBuilder uriBuilder = new URIBuilder();
 		int port = Integer.parseInt(configuration.getPort());
-		uriBuilder.setScheme("http").setHost(configuration.getHost()).setPort(port).setPath("/query")
-				.setParameter("db", configuration.getDatabase())
-				.setParameter("u", configuration.getUsername())
-				.setParameter("p", configuration.getPassword())
-				.setParameter("q", query.toString());
+		uriBuilder.setScheme(Constants.HTTP).setHost(configuration.getHost())
+				.setPort(port).setPath(Constants.QUERY)
+				.setParameter(Constants.DB, configuration.getDatabase())
+				.setParameter(Constants.U, configuration.getUsername())
+				.setParameter(Constants.P, configuration.getPassword())
+				.setParameter(Constants.Q, query.toString());
 		return uriBuilder.build();
 	}
 
@@ -58,7 +55,7 @@ public class DataReader {
 
 		InputStream in = response.getEntity().getContent();
 		BufferedReader reader = null;
-		String output = "";
+		String output = Constants.EMPTY_STRING;
 		try {
 			reader = new BufferedReader(new InputStreamReader(in));
 			output = output + reader.readLine();
@@ -75,10 +72,8 @@ public class DataReader {
 	public ResultSet getResult() throws IOException, URISyntaxException {
 		URI url = getURL();
 		String json = sendGetRequest(url);
-		Type type = new TypeToken<ResultSet>() {
-		}.getType();
-		Gson gson = new Gson();
-		return gson.fromJson(json, type);
+		
+		return Utilities.gson.fromJson(json, Utilities.resultSetType);
 	}
 
 }

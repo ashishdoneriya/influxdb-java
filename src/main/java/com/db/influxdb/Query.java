@@ -28,6 +28,8 @@ public class Query {
 
 	private String groupByTime;
 	
+	private List<String> groupByColumns = null;
+	
 	private String customQuery;
 	
 	public Query() {
@@ -37,8 +39,13 @@ public class Query {
 	 * @param tableName
 	 *            the tableName to set
 	 */
+	@Deprecated
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+	
+	public void setMeasurement(String measurementName) {
+		this.tableName = measurementName;
 	}
 
 	public List<String> getColumns() {
@@ -108,7 +115,7 @@ public class Query {
 	private List<String> getColumnsWithDoubleQuotes() {
 		List<String> list = new ArrayList<String>();
 		for (String node : columns) {
-			list.add("\"" + node + "\"");
+			list.add(Constants.BACKSLASH_QUOTATION + node + Constants.BACKSLASH_QUOTATION);
 		}
 		return list;
 	}
@@ -150,12 +157,12 @@ public class Query {
 		
 		// from "tableName"
 		if (tableName != null) {
-			query.append(" from \"").append(tableName).append("\"");
+			query.append(" from \"").append(tableName).append(Constants.BACKSLASH_QUOTATION);
 		} else {
-			query.append(" from \"").append(tables.get(0)).append("\"");
+			query.append(" from \"").append(tables.get(0)).append(Constants.BACKSLASH_QUOTATION);
 
 			for (int i = 1; i < tables.size(); i++) {
-				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append("\"");
+				query.append(", \"").append(tables.get(i)).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
 			}
 		}
 		
@@ -207,6 +214,17 @@ public class Query {
 		this.groupByTime = groupByTime;
 	}
 
+	public void setGroupByColumns(List<String> groupByColumns) {
+		this.groupByColumns = groupByColumns;
+	}
+	
+	public void addGroupByColumn(String columnName) {
+		if (groupByColumns == null) {
+			groupByColumns = new ArrayList<String>(2);
+		}
+		groupByColumns.add(columnName);
+	}
+
 	/**
 	 * add fill(SOME VALUE) at the end of query eg. fill(0)
 	 * 
@@ -216,7 +234,19 @@ public class Query {
 	public void fillNullValues(String fillString) {
 		this.fillString = fillString;
 	}
-
+	
+	public void setMeasurements(List<String> measurements) {
+		this.tables = measurements;
+	}
+	
+	public void addMeasurement(String measurementName) {
+		if (tables == null) {
+			tables = new ArrayList<String>(5);
+		}
+		tables.add(measurementName);
+	}
+	
+	@Deprecated
 	public void setTables(List<String> tables) {
 		this.tables = tables;
 	}

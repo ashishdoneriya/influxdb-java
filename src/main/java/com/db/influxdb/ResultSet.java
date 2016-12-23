@@ -1,6 +1,7 @@
 package com.db.influxdb;
 
 import java.util.List;
+import java.util.Map;
 
 public class ResultSet {
 
@@ -19,6 +20,8 @@ public class ResultSet {
 			private String name;
 
 			private List<String> columns;
+			
+			private Map<String, String> tags;
 
 			private List<List<String>> values;
 			
@@ -34,13 +37,21 @@ public class ResultSet {
 				return columns;
 			}
 
+			public Map<String, String> getTags() {
+				return tags;
+			}
+
+			public void setTags(Map<String, String> tags) {
+				this.tags = tags;
+			}
+
 			public List<List<String>> getValues() {
 				return values;
 			}
 			
 			@Override
 			public String toString() {
-				return "Series [name=" + name + ", columns=" + columns + ", values=" + values + "]";
+				return "Series [name=" + name + ", columns=" + columns + ", tags=" + tags + ", values=" + values + "]";
 			}
 
 		}
