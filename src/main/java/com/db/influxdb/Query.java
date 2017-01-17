@@ -173,7 +173,7 @@ public class Query {
 			query.append(Constants.FROM_BACKSLASH_QUOTATION).append(tables.get(0)).append(Constants.BACKSLASH_QUOTATION);
 
 			for (int i = 1; i < tables.size(); i++) {
-				query.append(Constants.COMMA_QUOTATION).append(tables.get(i)).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
+				query.append(Constants.COMMA_QUOTATION).append(tables.get(i)).append(Constants.BACKSLASH_QUOTATION);
 			}
 		}
 		
