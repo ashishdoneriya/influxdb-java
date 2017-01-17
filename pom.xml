@@ -4,7 +4,7 @@
 
 	<groupId>influxdb</groupId>
 	<artifactId>influxdb</artifactId>
-	<version>2.5</version>
+	<version>2.5.1</version>
 	<packaging>jar</packaging>
 
 	<name>influxdb</name>
@@ -38,7 +38,7 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<finalName>${project.artifactId}-2.5</finalName>
+					<finalName>${project.artifactId}-2.5.1</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
