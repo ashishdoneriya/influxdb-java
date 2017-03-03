@@ -126,7 +126,7 @@ public class DataWriter {
 		if (timeUnit == null) {
 			timeUnit = TimeUnit.SECONDS;
 		}
-		uriBuilder.setScheme(Constants.HTTP).setHost(configuration.getHost())
+		uriBuilder.setScheme(configuration.getProtocol()).setHost(configuration.getHost())
 				.setPort(port).setPath(Constants.WRITE)
 				.setParameter(Constants.DB, configuration.getDatabase())
 				.setParameter(Constants.U, configuration.getUsername())

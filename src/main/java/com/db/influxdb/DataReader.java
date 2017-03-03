@@ -39,7 +39,7 @@ public class DataReader {
 
 		URIBuilder uriBuilder = new URIBuilder();
 		int port = Integer.parseInt(configuration.getPort());
-		uriBuilder.setScheme(Constants.HTTP).setHost(configuration.getHost())
+		uriBuilder.setScheme(configuration.getProtocol()).setHost(configuration.getHost())
 				.setPort(port).setPath(Constants.QUERY)
 				.setParameter(Constants.DB, configuration.getDatabase())
 				.setParameter(Constants.U, configuration.getUsername())

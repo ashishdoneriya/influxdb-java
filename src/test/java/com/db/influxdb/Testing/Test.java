@@ -19,7 +19,7 @@ public class Test {
 	}
 	
 	public static void initiate() throws Exception {
-		Configuration configuration = new Configuration("localhost", "8086", "root", "root", "mydb");
+		Configuration configuration = new Configuration("http", "localhost", "8086", "root", "root", "mydb");
 		Utilities utilities = new Utilities();
 		utilities.createDatabase(configuration);
 		utilities.createRetentionPolicy(configuration, "customPolicy", 30, 1, true);

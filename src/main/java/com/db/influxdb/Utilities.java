@@ -31,7 +31,7 @@ public class Utilities {
 		int port = Integer.parseInt(configuration.getPort());
 
 		String query = "q=create database \"" + configuration.getDatabase() + Constants.BACKSLASH_QUOTATION;
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 					.setHost(configuration.getHost())
 					.setPort(port)
 					.setPath(Constants.QUERY);
@@ -66,7 +66,7 @@ public class Utilities {
 		int port = Integer.parseInt(configuration.getPort());
 
 		String query = "drop database \"" + configuration.getDatabase() + Constants.BACKSLASH_QUOTATION;
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 			.setHost(configuration.getHost())
 			.setPort(port)
 			.setPath(Constants.QUERY)
@@ -130,7 +130,7 @@ public class Utilities {
 		if (setDefault != null && setDefault == true) {
 			query = query + " DEFAULT";
 		}
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 				.setHost(configuration.getHost())
 				.setPort(port)
 				.setPath(Constants.QUERY)
@@ -194,7 +194,7 @@ public class Utilities {
 		if (setDefault != null && setDefault == true) {
 			query = query + " DEFAULT";
 		}
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 				.setHost(configuration.getHost())
 				.setPort(port)
 				.setPath(Constants.QUERY)
@@ -239,7 +239,7 @@ public class Utilities {
 		int port = Integer.parseInt(configuration.getPort());
 
 		String query = "drop measurement \"" + measurementName + Constants.BACKSLASH_QUOTATION;
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 				.setHost(configuration.getHost())
 				.setPort(port)
 				.setPath(Constants.QUERY)
@@ -275,7 +275,7 @@ public class Utilities {
 		URIBuilder uriBuilder = new URIBuilder();
 		int port = Integer.parseInt(configuration.getPort());
 
-		uriBuilder.setScheme(Constants.HTTP)
+		uriBuilder.setScheme(configuration.getProtocol())
 				.setHost(configuration.getHost())
 				.setPort(port)
 				.setPath(Constants.PING);

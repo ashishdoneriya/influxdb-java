@@ -5,6 +5,7 @@ API for influx database to write and fetch data.
 <pre>
 // For Writing Data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
+//configuration.setProtocol("http");
 DataWriter writer = new DataWriter(configuration);
 writer.setMeasurement("sampleMeasurement1");
 

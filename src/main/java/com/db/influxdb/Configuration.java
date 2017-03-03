@@ -1,6 +1,8 @@
 package com.db.influxdb;
 
 public class Configuration {
+	
+	private String protocol = Constants.HTTP;
 
 	private String host;
 
@@ -13,11 +15,28 @@ public class Configuration {
 	private String database;
 
 	public Configuration(String host, String port, String username, String password, String database) {
-		this.host = host;
+		this.host = host.toLowerCase();
 		this.port = port;
 		this.username = username;
 		this.password = password;
 		this.database = database;
+	}
+	
+	public Configuration(String protocol, String host, String port, String username, String password, String database) {
+		this(host, port, username, password, database);
+		this.protocol = protocol;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	/**
+	 * Set protocol/schema (http or https). Default is http
+	 * @param protocol
+	 */
+	public void setProtocol(String protocol) {
+		this.protocol = protocol.toLowerCase();
 	}
 
 	public String getHost() {
