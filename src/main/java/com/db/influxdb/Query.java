@@ -203,15 +203,18 @@ public class Query {
 			query.append(Constants.space_WHERE_TIME_GREATER_THAN_NOW_MINUS_space).append(duration);
 		}
 		
-		// where jobName = 'PI' (ie. Where tagkey1 = 'tagvalue1', tagkey2 = 'tagvalue2', tagkey3 = 'tagValue3')
+		// where jobName = 'PI' (ie. Where tagkey1 = 'tagvalue1' and tagkey2 = 'tagvalue2' and tagkey3 = 'tagValue3')
 		if (tagsInWhereClause != null && !tagsInWhereClause.isEmpty()) {
-			query.append(Constants.SPACE);
-			if (whereAlreadyAdded) {
-				query.append(Constants.AND);
-			} else {
-				query.append(Constants.WHERE);
+			boolean isFirstTag = true;
+			if (!whereAlreadyAdded) {
+				query.append(Constants.SPACE).append(Constants.WHERE);
 			}
+			
 			for (Entry<String, String> e : tagsInWhereClause.entrySet()) {
+				if (whereAlreadyAdded || !isFirstTag) {
+					query.append(Constants.SPACE).append(Constants.AND);
+				}
+				isFirstTag = false;
 				query.append(Constants.SPACE).append(e.getKey()).append(Constants.SPACE)
 					.append(Constants.EQUAL).append(Constants.SPACE)
 					.append(Constants.SINGLE_QUOTE).append(e.getValue())
