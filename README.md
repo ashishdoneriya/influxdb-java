@@ -87,6 +87,6 @@ System.out.println(utilities.isInfluxdbAlive(configuration));
 
 <p>You can use https://jitpack.io to add influxdb-java to your project.</p>
 
-<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.1/influxdb-2.5.1.jar
+<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.2/influxdb-2.5.2.jar
 
 <p>For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html</p>
