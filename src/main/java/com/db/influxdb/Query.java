@@ -21,6 +21,8 @@ public class Query {
 	private Date rangeFrom;
 
 	private Date rangeTo;
+	
+	private Order orderOfTime = Order.ASC;
 
 	private Integer limit;
 
@@ -104,6 +106,10 @@ public class Query {
 
 	public void setRangeTo(Date rangeTo) {
 		this.rangeTo = rangeTo;
+	}
+
+	public void setOrderOfTime(Order orderOfTime) {
+		this.orderOfTime = orderOfTime;
 	}
 
 	public void setLimit(int limit) {
@@ -249,6 +255,7 @@ public class Query {
 		if (fillNullValues) {
 			query.append(Constants.SPACE).append(fillString);
 		}
+		query.append(Constants.SPACE).append(" order by time ").append(orderOfTime);
 		if (limit != null) {
 			query.append(Constants.LIMIT).append(limit);
 		}
