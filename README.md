@@ -73,6 +73,8 @@ utilities.createDatabase(configuration);
 // For creating retention policy
 utilities.createRetentionPolicy(configuration, "customPolicy", 30, 1, true);
 
+utilities.dropMeasurement(configuration, "measurement1");
+
 System.out.println(utilities.isInfluxdbAlive(configuration));
 </pre>
 
