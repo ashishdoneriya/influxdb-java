@@ -1,7 +1,7 @@
 # influxdb
 API for influx database to write and fetch data.
 
-<p>Typical usage looks like:</p>
+Typical usage looks like:
 
 ```java
 // For Writing Data
@@ -79,17 +79,15 @@ utilities.dropMeasurement(configuration, "measurement1");
 System.out.println(utilities.isInfluxdbAlive(configuration));
 ```
 
-<h3>Build Requirements</h3>
-<ul>
-<li>Java 1.7+</li>
-<li>Maven 3.0+</li>
-</ul>
+### Build Requirements
 
-<p>You can build influxdb with:</p>
+*   Java 1.7+
+*   Maven 3.0+
+
+You can build influxdb with:
+
 <pre>$ mvn clean install -DskipTests=true</pre>
 
-<p>You can use https://jitpack.io to add influxdb-java to your project.</p>
+You can use [jitpack](https://jitpack.io) to add influxdb-java to your project or [download jar](https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.2/influxdb-2.5.2.jar)
 
-<p>You can download jar file from https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.2/influxdb-2.5.2.jar
-
-<p>For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html</p>
+For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html
