@@ -2,7 +2,7 @@
 API for influx database to write and fetch data.
 
 <p>Typical usage looks like:</p>
-<pre>
+```java
 // For Writing Data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
 //configuration.setProtocol("http");
@@ -76,7 +76,7 @@ utilities.createRetentionPolicy(configuration, "customPolicy", 30, 1, true);
 utilities.dropMeasurement(configuration, "measurement1");
 
 System.out.println(utilities.isInfluxdbAlive(configuration));
-</pre>
+```
 
 <h3>Build Requirements</h3>
 <ul>
