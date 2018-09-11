@@ -2,7 +2,7 @@
 API for influx database to write and fetch data.
 
 <p>Typical usage looks like:</p>
-```java
+```
 // For Writing Data
 Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
 //configuration.setProtocol("http");
