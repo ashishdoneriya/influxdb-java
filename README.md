@@ -1,10 +1,11 @@
 # influxdb
-API for influx database to write and fetch data.
+Java API for influx database to write and fetch data.
 
 Typical usage looks like:
 
+
+### For Writing Data
 ```java
-// For Writing Data
 Configuration configuration = new Configuration("localhost", "8086",
     "root", "root", "Localhost");
 //configuration.setProtocol("http");
@@ -36,8 +37,8 @@ writer.setTime(System.currentTimeMillis());
 writer.writeData();
 ```
 
+### For Fetching Data
 ```java
-// For fetching data
 Configuration configuration = new Configuration("localhost", "8086",
     "root", "root", "Localhost");
 
@@ -68,8 +69,8 @@ resultSet = dataReader.getResult();
 System.out.println(resultSet);
 ```
 
+### Other utilities
 ```java
-// Other utilities
 Configuration configuration = new Configuration("localhost", "8086",
     "root", "root", "Localhost");
 
