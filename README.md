@@ -69,7 +69,7 @@ resultSet = dataReader.getResult();
 System.out.println(resultSet);
 ```
 
-### Other utilities
+### Other Utilities
 ```java
 Configuration configuration = new Configuration("localhost", "8086",
     "root", "root", "Localhost");
