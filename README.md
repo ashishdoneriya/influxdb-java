@@ -5,7 +5,8 @@ Typical usage looks like:
 
 ```java
 // For Writing Data
-Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
+Configuration configuration = new Configuration("localhost", "8086",
+    "root", "root", "Localhost");
 //configuration.setProtocol("http");
 DataWriter writer = new DataWriter(configuration);
 writer.setMeasurement("sampleMeasurement1");
@@ -33,11 +34,12 @@ writer.addTag("disk_type", "HDD");
 writer.setTime(System.currentTimeMillis());
 
 writer.writeData();
+```
 
-
-
+```java
 // For fetching data
-Configuration configuration = new Configuration("localhost", "8086", "root", "root", "Localhost");
+Configuration configuration = new Configuration("localhost", "8086",
+    "root", "root", "Localhost");
 
 Query query = new Query();
 query.setMeasurement("sampleMeasurement1");
