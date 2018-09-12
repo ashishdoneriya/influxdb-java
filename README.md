@@ -66,8 +66,12 @@ query1.setCustomQuery("select * from sampleMeasurement1");
 dataReader.setQuery(query1);
 resultSet = dataReader.getResult();
 System.out.println(resultSet);
+```
 
+```java
 // Other utilities
+Configuration configuration = new Configuration("localhost", "8086",
+    "root", "root", "Localhost");
 
 Utilities utilities = new Utilities();
 // For creating database
