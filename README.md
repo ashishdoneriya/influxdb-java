@@ -95,6 +95,6 @@ You can build influxdb with:
 
 <pre>$ mvn clean install -DskipTests=true</pre>
 
-You can use [jitpack](https://jitpack.io/#ashishdoneriya/influxdb-java/2.5.2) to add influxdb-java to your project or directly [download jar file](https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.2/influxdb-2.5.2.jar) 
+You can use [jitpack](https://jitpack.io/#ashishdoneriya/influxdb-java/2.5.3) to add influxdb-java to your project or directly [download jar file](https://github.com/ashishdoneriya/influxdb-java/releases/download/2.5.3/influxdb-2.5.3.jar) 
 
 For more details http://csetutorials.com/fetch-and-write-influxdb-data-using-java.html
