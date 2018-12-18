@@ -21,7 +21,7 @@ writer.addField("field3", "thisIsString");
 writer.addField("field4", false);
 writer.addTag("hostname", "server001");
 
-// If we'll set time it will set automatically
+// If we'll not set time, it will set automatically
 writer.setTime(System.currentTimeMillis());
 writer.writeData();
 
