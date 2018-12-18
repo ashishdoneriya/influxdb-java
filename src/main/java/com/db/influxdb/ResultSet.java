@@ -23,7 +23,7 @@ public class ResultSet {
 			
 			private Map<String, String> tags;
 
-			private List<List<String>> values;
+			private List<List<Object>> values;
 			
 			public String getName() {
 				return name;
@@ -45,7 +45,7 @@ public class ResultSet {
 				this.tags = tags;
 			}
 
-			public List<List<String>> getValues() {
+			public List<List<Object>> getValues() {
 				return values;
 			}
 			
