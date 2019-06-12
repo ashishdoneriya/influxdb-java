@@ -110,7 +110,7 @@ public class DataWriter {
 	private String parseValue(Object value) {
 		if (value instanceof Integer) {
 			return String.valueOf(value) + Constants.I;
-		} else if (value instanceof Double) {
+		} else if (value instanceof Double || value instanceof Float) {
 			return String.valueOf(value);
 		} else if (value instanceof Boolean) {
 			return String.valueOf((boolean) value);
